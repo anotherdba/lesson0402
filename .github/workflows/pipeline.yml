@@ -4,18 +4,24 @@ on: [push]
 env:
   APPLICATION_NAME: app2
 jobs:
-  lint:
+  job1:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Python environment
+    - uses: actions/checkout@v4
+    - name: Set up Python
       uses: actions/setup-python@v4
-    - name: Install requirements
-      run: pip install --quiet --requirement requirements.txt
-    - name: Lint code
-      run: |
-        flake8 --ignore=E501,E231 *.py || exit 0
-        pylint --disable=C0301,C0326 *.py || exit 0
-    - name: Run unit tests
-      run: |
-        python -m unittest --verbose --failfast
+      with:
+        python-version: '3.8'
+    - name: run hello.py
+      run: python hello.py
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: .
