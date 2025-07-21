@@ -4,7 +4,7 @@ on: [push]
 env:
   APPLICATION_NAME: app2
 jobs:
-  job1:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -15,7 +15,8 @@ jobs:
     - name: run hello.py
       run: python hello.py
 
-  job2:
+  build:
+    needs: job1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
